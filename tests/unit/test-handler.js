@@ -1,7 +1,7 @@
 'use strict';
 
-import { lambdaHandler } from '../../src/index.mjs';
-import { expect, describe, it } from '@jest/globals';
+const { lambdaHandler } = require('../../src/index');
+const { expect, describe, it } = require('@jest/globals');
 
 describe('Unit test for app handler', function () {
     it('verifies successful response', async () => {
