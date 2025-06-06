@@ -1,22 +1,37 @@
 module.exports = {
-  env: {
-    node: true,
-    es2021: true,
-    jest: true
+  "env": {
+    "node": true,
+    "es6": true
   },
-  extends: [
-    'eslint:recommended'
+  "extends": [
+    "eslint:recommended",
+    "plugin:security/recommended",
+    "plugin:node/recommended",
+    "plugin:sonarjs/recommended"
   ],
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module'
+  "plugins": [
+    "security",
+    "node",
+    "sonarjs"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
   },
-  rules: {
-    'no-console': 'warn',
-    'no-unused-vars': 'error',
-    'no-undef': 'error',
-    'semi': ['error', 'always'],
-    'quotes': ['error', 'single'],
-    'indent': ['error', 2]
+  "rules": {
+    "security/detect-non-literal-regexp": "error",
+    "security/detect-non-literal-require": "error",
+    "security/detect-possible-timing-attacks": "error",
+    "security/detect-eval-with-expression": "error",
+    "security/detect-no-csrf-before-method-override": "error",
+    "security/detect-buffer-noassert": "error",
+    "security/detect-child-process": "error",
+    "security/detect-disable-mustache-escape": "error",
+    "security/detect-object-injection": "warn",
+    "security/detect-unsafe-regex": "error",
+    "security/detect-new-buffer": "error",
+    "sonarjs/cognitive-complexity": ["error", 15],
+    "sonarjs/no-duplicate-string": "warn",
+    "sonarjs/no-identical-functions": "warn"
   }
-};
+}
