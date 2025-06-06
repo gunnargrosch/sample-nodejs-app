@@ -1,0 +1,41 @@
+{
+  "name": "security-pipeline-nodejs-app",
+  "version": "1.0.0",
+  "description": "Sample Node.js application for security pipeline testing",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "test:integration": "jest --config jest.integration.config.js",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/",
+    "security:audit": "npm audit",
+    "security:retire": "retire --path .",
+    "security:snyk": "snyk test"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.55.0",
+    "retire": "^4.0.3",
+    "snyk": "^1.1266.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "nodejs",
+    "security",
+    "pipeline",
+    "aws"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
