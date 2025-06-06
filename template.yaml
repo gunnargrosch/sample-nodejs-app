@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Sample Node.js application for security pipeline
+Description: >
+  sam-app
+
+  Sample SAM Template for sam-app
 
 Parameters:
   Environment:
@@ -11,61 +14,57 @@ Parameters:
 
 Globals:
   Function:
-    Timeout: 30
-    Runtime: nodejs18.x
+    Timeout: 3
+
+    Tracing: Active
+    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+    LoggingConfig:
+      LogFormat: JSON
+  Api:
+    TracingEnabled: true
     Environment:
       Variables:
         ENVIRONMENT: !Ref Environment
 
 Resources:
-  # Lambda function for the Node.js application
-  NodeJSAppFunction:
-    Type: AWS::Serverless::Function
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      FunctionName: !Sub "${AWS::StackName}-nodejs-app-${Environment}"
-      CodeUri: src/
-      Handler: lambda.handler
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
+      Runtime: nodejs20.x
+      Architectures:
+      - x86_64
       Events:
-        Api:
-          Type: Api
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /{proxy+}
-            Method: ANY
-            RestApiId: !Ref NodeJSAppApi
-        RootApi:
-          Type: Api
-          Properties:
-            Path: /
-            Method: ANY
-            RestApiId: !Ref NodeJSAppApi
+            Path: /hello
+            Method: get
 
-  # API Gateway
-  NodeJSAppApi:
-    Type: AWS::Serverless::Api
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
     Properties:
-      Name: !Sub "${AWS::StackName}-api-${Environment}"
-      StageName: !Ref Environment
-      Cors:
-        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-        AllowOrigin: "'*'"
-
-  # CloudWatch Log Group
-  NodeJSAppLogGroup:
-    Type: AWS::Logs::LogGroup
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${NodeJSAppFunction}"
-      RetentionInDays: 14
-
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
 Outputs:
-  ApiUrl:
-    Description: API Gateway endpoint URL
-    Value: !Sub "https://${NodeJSAppApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/"
-    Export:
-      Name: !Sub "${AWS::StackName}-ApiUrl-${Environment}"
-  
-  FunctionName:
-    Description: Lambda function name
-    Value: !Ref NodeJSAppFunction
-    Export:
-      Name: !Sub "${AWS::StackName}-FunctionName-${Environment}"
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: Hello World Lambda Function ARN
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt HelloWorldFunctionRole.Arn
