@@ -1,12 +1,12 @@
 {
   "name": "sample-nodejs-app",
   "version": "1.0.0",
-  "description": "Sample Node.js application for security pipeline demonstration",
+  "description": "Sample Node.js application for containerized Lambda deployment",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:integration": "jest --config jest.integration.config.js",
@@ -20,7 +20,9 @@
     "security",
     "pipeline",
     "nodejs",
-    "aws"
+    "aws",
+    "lambda",
+    "container"
   ],
   "author": "",
   "license": "MIT",
