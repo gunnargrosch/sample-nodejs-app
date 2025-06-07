@@ -37,6 +37,10 @@ Resources:
       Environment:
         Variables:
           ENVIRONMENT: !Ref Environment
+    Metadata:
+      DockerTag: nodejs20.x-v1
+      DockerContext: ./src
+      Dockerfile: Dockerfile
 
 Outputs:
   HelloWorldApi:

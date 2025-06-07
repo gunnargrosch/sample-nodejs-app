@@ -1,19 +1,17 @@
 {
-  "name": "hello_world",
+  "name": "hello-world-function",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
-  "main": "app.js",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
-  "license": "MIT",
+  "description": "Lambda function for containerized deployment",
+  "main": "index.js",
   "dependencies": {
-    "axios": ">=1.6.0"
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "express-validator": "^7.0.1",
+    "winston": "^3.11.0"
   },
-  "scripts": {
-    "test": "mocha tests/unit/"
-  },
-  "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.2.0"
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

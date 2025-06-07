@@ -1,13 +1,13 @@
-FROM public.ecr.aws/lambda/nodejs:18
+FROM public.ecr.aws/lambda/nodejs:20
 
 # Copy package files
-COPY package*.json ${LAMBDA_TASK_ROOT}/
+COPY package*.json ./
 
 # Install dependencies
 RUN npm ci --only=production && npm cache clean --force
 
 # Copy source code
-COPY src/ ${LAMBDA_TASK_ROOT}/src/
+COPY index.js ./
 
 # Set the CMD to your handler
-CMD [ "src/index.lambdaHandler" ]
+CMD [ "index.lambdaHandler" ]
