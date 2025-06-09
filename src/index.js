@@ -10,42 +10,42 @@
 const crypto = require('crypto');
 const fs = require('fs');
 
-// Medium Risk: Hardcoded secret (for testing purposes)
-const API_KEY = "sk-1234567890abcdef"; // This should be in environment variables
+// // Medium Risk: Hardcoded secret (for testing purposes)
+// const API_KEY = "sk-1234567890abcdef"; // This should be in environment variables
 
-// Medium Risk: Weak cryptographic algorithm
-function weakHash(data) {
-    return crypto.createHash('md5').update(data).digest('hex');
-}
+// // Medium Risk: Weak cryptographic algorithm
+// function weakHash(data) {
+//     return crypto.createHash('md5').update(data).digest('hex');
+// }
 
 // Low Risk: Console.log in production code
 function debugLog(message) {
     console.log("DEBUG: " + message); // Should use proper logging
 }
 
-// Medium Risk: Eval usage (dynamic code execution)
-function processUserInput(userCode) {
-    try {
-        // This is dangerous - allows arbitrary code execution
-        return eval(userCode);
-    } catch (error) {
-        return null;
-    }
-}
+// // Medium Risk: Eval usage (dynamic code execution)
+// function processUserInput(userCode) {
+//     try {
+//         // This is dangerous - allows arbitrary code execution
+//         return eval(userCode);
+//     } catch (error) {
+//         return null;
+//     }
+// }
 
 // Low Risk: Unused variable
 const unusedVariable = "This variable is never used";
 
-// Medium Risk: File system operations without proper validation
-function readUserFile(filename) {
-    // Path traversal vulnerability - no input validation
-    try {
-        return fs.readFileSync(filename, 'utf8');
-    } catch (error) {
-        debugLog("Failed to read file: " + filename);
-        return null;
-    }
-}
+// // Medium Risk: File system operations without proper validation
+// function readUserFile(filename) {
+//     // Path traversal vulnerability - no input validation
+//     try {
+//         return fs.readFileSync(filename, 'utf8');
+//     } catch (error) {
+//         debugLog("Failed to read file: " + filename);
+//         return null;
+//     }
+// }
 
 // Low Risk: Non-literal regular expression
 function validateInput(input, pattern) {
@@ -53,10 +53,10 @@ function validateInput(input, pattern) {
     return regex.test(input);
 }
 
-// Medium Risk: Buffer constructor (deprecated)
-function createBuffer(size) {
-    return new Buffer(size); // Should use Buffer.alloc() or Buffer.from()
-}
+// // Medium Risk: Buffer constructor (deprecated)
+// function createBuffer(size) {
+//     return new Buffer(size); // Should use Buffer.alloc() or Buffer.from()
+// }
 
 exports.lambdaHandler = async (event, context) => {
     try {
