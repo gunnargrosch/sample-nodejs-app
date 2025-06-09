@@ -7,8 +7,8 @@
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  */
 
-const crypto = require('crypto');
-const fs = require('fs');
+// const crypto = require('crypto');
+// const fs = require('fs');
 
 // // Medium Risk: Hardcoded secret (for testing purposes)
 // const API_KEY = "sk-1234567890abcdef"; // This should be in environment variables
